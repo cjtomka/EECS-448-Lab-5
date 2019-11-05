@@ -1,0 +1,34 @@
+<html lang = "en" dir = "ltr">
+    <head>
+        <meta charset = "utf-8">
+        <title>View Posts</title>
+        <link type = "text/css" rel = "stylesheet" href = "style.css">
+    </head>
+    <body>
+        <form action = "ViewUserPosts.php" method = "post">
+            <?php
+                $mysqli = new mysqli("mysql.eecs.ku.edu", "cjtomka", "zair9see", "cjtomka");
+                if ($mysqli->connect_errno)
+                {
+                    print"Connection failed. %s\n";
+                    $mysqli->connect_error;
+                    exit();
+                }
+                $query = mysqli_query($mysqli, "SELECT user_id FROM Users")
+                if($query->num_rows == 0)
+                {
+                  print "No posts found.";
+                  exit();
+                }
+                print '<select name = "user"><option>Users</option>';
+                while ($row = $query->fetch_assoc())
+                {
+                    print '<option value="'.$row['user_id'].'">' .$row['user_id']. '</option>';
+                }
+                print '</select><input type = "submit" value = "View Posts">';
+                $row->free();
+                $mysqli->close();
+            ?>
+        </form>
+    </body>
+</html>
